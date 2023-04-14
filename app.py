@@ -2,8 +2,11 @@ import algoritmo
 from nodo import Nodo
 
 nodo = Nodo()
+nodo.hn = algoritmo.calcular_euristica(nodo.tablero)
+nodo.calcfn()
+nodo.imprimir_nodo()
 
-nodos = algoritmo.generar_estados(nodo)
-for nodo in nodos:
-    print(nodo.tablero, end='\n')
+lista_prioridad = algoritmo.generar_estados(nodo)
+for n in lista_prioridad:
+    n.imprimir_nodo()
     

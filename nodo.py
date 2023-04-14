@@ -7,8 +7,12 @@ class Nodo:
             [2, 5, 4],
         ])
         self.padre = None
-        self.gn = 0
-        self.hn = 0
+        self.gn = 0 #costo camino
+        self.hn = 0 #euristica
+        self.fn = 0 #costo total
+        self.accion = 'tablero inicial'
+    def calcfn(self):
+        self.fn = self.gn + self.hn
     def poscicion_cero(self):
         x, y = self.tablero.shape
         for i in range(x):
@@ -39,3 +43,5 @@ class Nodo:
             self.tablero[x, y], self.tablero[x, y+1] = self.tablero[x, y+1], self.tablero[x, y]
             return True
         return False
+    def imprimir_nodo(self):
+        print(f'{self.tablero} - gn:{self.gn} - hn:{self.hn} - fn:{self.fn}\n accion: {self.accion} \n')
