@@ -13,21 +13,25 @@ TABLERO = np.array(
     ]
 )
 
-def calcular_euristica(tablero, tablero_solucion=TABLERO):
+def calcular_heuristica(tablero, tablero_solucion=TABLERO):
     listanormal = tablero.flatten().tolist()
     listasolucion = tablero_solucion.flatten().tolist()
-    euristica = 0
+    heuristica = 0
     for index in range(len(listanormal)):
         if not listanormal[index] == listasolucion[index]:
-            euristica+=1
+            heuristica+=1
+
         # indicesolucion = listasolucion.index(listanormal[index])
-        # euristica+= abs(index-indicesolucion)
-    return euristica
+        # hheuristica+= abs(index-indicesolucion)
+    return heuristica
 
 def es_solucion(lista_nodos):
     for nodo in lista_nodos:
         if nodo.hn == 0:
-            imprimir_camino(nodo)
+            resp = imprimir_camino(nodo, [])
+            resp.reverse()
+            for nodo in resp:
+                logging.info(nodo.tablero)
             return True
     return False
 
@@ -36,8 +40,8 @@ def nodo_por_expandir(lista_prioridad):
     for index, nodo in enumerate(lista_prioridad):
         if nodo.estado == 'expandido':
             continue
-        fns.append((index, nodo.hn, nodo))
-    item = min(fns, key=lambda x: x[1])
+        fns.append((index, nodo.fn, nodo))
+    item = min(fns, key=lambda fns: fns[1])
     lista_prioridad.pop(item[0])
     nodo = item[2]
     nodo.estado = 'expandido'
@@ -66,7 +70,7 @@ def generar_estados(nodo):
         nodo_arriba.accion = "movio arriba"
         nodo_arriba.estado = ''
         nodo_arriba.gn += 1
-        nodo_arriba.hn = calcular_euristica(nodo_arriba.tablero)
+        nodo_arriba.hn = calcular_heuristica(nodo_arriba.tablero)
         nodo_arriba.calcfn()
         nodo_arriba.padre = nodo
         nodos_generados.append(nodo_arriba)
@@ -74,7 +78,7 @@ def generar_estados(nodo):
         nodo_abajo.accion = "movio abajo"
         nodo_abajo.estado = ''
         nodo_abajo.gn += 1
-        nodo_abajo.hn = calcular_euristica(nodo_abajo.tablero)
+        nodo_abajo.hn = calcular_heuristica(nodo_abajo.tablero)
         nodo_abajo.calcfn()
         nodo_abajo.padre = nodo
         nodos_generados.append(nodo_abajo)
@@ -82,7 +86,7 @@ def generar_estados(nodo):
         nodo_izquierda.accion = "movio izquierda"
         nodo_izquierda.estado = ''
         nodo_izquierda.gn += 1
-        nodo_izquierda.hn = calcular_euristica(nodo_izquierda.tablero)
+        nodo_izquierda.hn = calcular_heuristica(nodo_izquierda.tablero)
         nodo_izquierda.calcfn()
         nodo_izquierda.padre = nodo
         nodos_generados.append(nodo_izquierda)
@@ -90,7 +94,7 @@ def generar_estados(nodo):
         nodo_derecha.accion = "movio derecha"
         nodo_derecha.estado = ''
         nodo_derecha.gn += 1
-        nodo_derecha.hn = calcular_euristica(nodo_derecha.tablero)
+        nodo_derecha.hn = calcular_heuristica(nodo_derecha.tablero)
         nodo_derecha.calcfn()
         nodo_derecha.padre = nodo
         nodos_generados.append(nodo_derecha)
@@ -107,9 +111,10 @@ def es_solucionable(tablero):
     # Comprobar si el número de inversiones es par o impar
     return inversiones % 2 == 0
 
-def imprimir_camino(nodo):
+def imprimir_camino(nodo, lista_respuesta):
     if nodo == None:
-        return
+        return lista_respuesta
     # print(f'{nodo.tablero} \n')
-    logging.info(nodo.tablero)
-    return imprimir_camino(nodo.padre)
+    lista_respuesta.append(nodo)
+    # logging.info(nodo.tablero)
+    return imprimir_camino(nodo.padre, lista_respuesta)

@@ -4,13 +4,13 @@ from random import shuffle
 class Nodo:
     def __init__(self):
         self.tablero = np.array([
-             [2, 3, 6],
+            [2, 3, 6],
             [0, 4, 8],
             [1, 7, 5]
         ])
         self.padre = None
         self.gn = 0 #costo camino
-        self.hn = 0 #euristica
+        self.hn = 0 #heuristica
         self.fn = 0 #costo total
         self.accion = 'tablero inicial'
         self.estado = ''
@@ -35,12 +35,6 @@ class Nodo:
             [2, 4, 1],
             [8, 3, 0],
             [7, 6, 5],
-        ])
-    def llamen_a_dios(self):
-        self.tablero = np.array([
-            [1, 5, 6],
-            [4, 8, 2],
-            [7, 0, 3],
         ])
 
     def mezclar_tablero(self):

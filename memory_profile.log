@@ -1,0 +1,23 @@
+Filename: main.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+    19     33.2 MiB     33.2 MiB           1   @profile(stream=open('memory_profile.log', 'w+'))
+    20                                         def inicio():
+    21     33.2 MiB      0.0 MiB           1       tinicio = time.time()
+    22                                             while True:
+    23     33.4 MiB      0.0 MiB         168           nodo = algoritmo.nodo_por_expandir(lista_prioridad)
+    24     33.4 MiB      0.0 MiB         168           nodo.imprimir_nodo()
+    25                                                 # time.sleep(1)
+    26     33.4 MiB      0.2 MiB         168           nuevos_nodos = algoritmo.generar_estados(nodo)
+    27     33.4 MiB      0.0 MiB         168           if algoritmo.es_solucion(nuevos_nodos): 
+    28     33.4 MiB      0.0 MiB           1               break;
+    29     33.4 MiB      0.0 MiB         167           algoritmo.agregar_nodos(lista_prioridad, nuevos_nodos)
+    30     33.4 MiB      0.0 MiB         167           print('nodos: ',len(lista_prioridad))
+    31     33.4 MiB      0.0 MiB           1       tfin = time.time()
+    32     33.4 MiB      0.0 MiB           1       tt = tfin - tinicio
+    33     33.4 MiB      0.0 MiB           1       min = tt//60
+    34     33.4 MiB      0.0 MiB           1       seg = tt % 60
+    35     33.4 MiB      0.0 MiB           1       print(f'se encontro solucion, tiempo: {min} min : {seg} seg')
+
+
